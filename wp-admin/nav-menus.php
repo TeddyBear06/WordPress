@@ -1071,6 +1071,27 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									</div>
 								</fieldset>
 
+								<?php
+								if ( ! isset( $disable_this_menu ) ) {
+									$disable_this_menu = get_option( 'nav_menu_options' );
+									
+									if ( ! isset( $disable_this_menu['disable_this_menu'] ) ) {
+										$disable_this_menu = false;
+									} elseif ( false !== array_search( $nav_menu_selected_id, $disable_this_menu['disable_this_menu'], true ) ) {
+										$disable_this_menu = true;
+									} else {
+										$disable_this_menu = false;
+									}
+								}
+								?>
+
+								<fieldset class="menu-settings-group disable-this-menu">
+									<legend class="menu-settings-group-name howto"><?php _e( 'Disable this menu' ); ?></legend>
+									<div class="menu-settings-input checkbox-input">
+										<input type="checkbox"<?php checked( $disable_this_menu ); ?> name="disable-this-menu" id="disable-this-menu" value="1" /> <label for="disable-this-menu"><?php printf( __( 'Disable this menu (the configuration still saved but the menu is not visible)' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
+									</div>
+								</fieldset>
+
 								<?php if ( current_theme_supports( 'menus' ) ) : ?>
 
 									<fieldset class="menu-settings-group menu-theme-locations">
